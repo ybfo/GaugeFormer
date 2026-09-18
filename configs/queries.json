@@ -1,0 +1,194 @@
+{
+  "protocol_version": "gf-cs-2026-08-12-v5",
+  "corpus_manifest_sha256": "13f68c4abbfed980c9a9b0792bb92d649048eb0c8b83d9791885a0dfc86567e7",
+  "unseen_target_fraction": 0.3,
+  "selection_uses_values": false,
+  "selection_uses_test_metrics": false,
+  "rule": "lowest SHA-256 ranks among eligible forecast-target identities; rounded 30%, with at least one unseen and one supervised identity",
+  "systems": {
+    "hydraulic": {
+      "supervised_forecast_indices": [
+        1,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        15,
+        16
+      ],
+      "supervised_forecast_names": [
+        "PS2",
+        "PS4",
+        "PS5",
+        "EPS1",
+        "FS1",
+        "FS2",
+        "TS1",
+        "TS3",
+        "TS4",
+        "VS1",
+        "CP",
+        "SE"
+      ],
+      "unseen_target_indices": [
+        0,
+        2,
+        5,
+        10,
+        14
+      ],
+      "unseen_target_names": [
+        "PS1",
+        "PS3",
+        "PS6",
+        "TS2",
+        "CE"
+      ]
+    },
+    "metropt": {
+      "supervised_forecast_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "supervised_forecast_names": [
+        "TP2",
+        "TP3",
+        "H1",
+        "DV_pressure",
+        "Reservoirs"
+      ],
+      "unseen_target_indices": [
+        5,
+        6
+      ],
+      "unseen_target_names": [
+        "Oil_temperature",
+        "Motor_current"
+      ]
+    },
+    "pmsm": {
+      "supervised_forecast_indices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        10,
+        11
+      ],
+      "supervised_forecast_names": [
+        "u_q",
+        "coolant",
+        "stator_winding",
+        "u_d",
+        "motor_speed",
+        "i_d",
+        "ambient",
+        "torque"
+      ],
+      "unseen_target_indices": [
+        4,
+        7,
+        8,
+        9
+      ],
+      "unseen_target_names": [
+        "stator_tooth",
+        "i_q",
+        "pm",
+        "stator_yoke"
+      ]
+    },
+    "steel_industry": {
+      "supervised_forecast_indices": [
+        1,
+        2,
+        3
+      ],
+      "supervised_forecast_names": [
+        "Lagging_Current_Reactive.Power_kVarh",
+        "Leading_Current_Reactive_Power_kVarh",
+        "Lagging_Current_Power_Factor"
+      ],
+      "unseen_target_indices": [
+        0,
+        4
+      ],
+      "unseen_target_names": [
+        "Usage_kWh",
+        "Leading_Current_Power_Factor"
+      ]
+    },
+    "building_energy": {
+      "supervised_forecast_indices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        7,
+        11,
+        12,
+        13,
+        15,
+        16,
+        17,
+        18,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "supervised_forecast_names": [
+        "Appliances",
+        "lights",
+        "T1",
+        "T3",
+        "T4",
+        "T6",
+        "RH_1",
+        "RH_2",
+        "RH_3",
+        "RH_5",
+        "RH_6",
+        "RH_7",
+        "RH_8",
+        "Press_mm_hg",
+        "RH_out",
+        "Windspeed",
+        "Visibility",
+        "Tdewpoint"
+      ],
+      "unseen_target_indices": [
+        3,
+        6,
+        8,
+        9,
+        10,
+        14,
+        19,
+        20
+      ],
+      "unseen_target_names": [
+        "T2",
+        "T5",
+        "T7",
+        "T8",
+        "T9",
+        "RH_4",
+        "RH_9",
+        "T_out"
+      ]
+    }
+  }
+}

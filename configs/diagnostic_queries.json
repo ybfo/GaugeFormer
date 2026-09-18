@@ -1,0 +1,269 @@
+{
+  "protocol_version": "gf-cs-2026-08-12-v5",
+  "selection_uses_values": false,
+  "selection_uses_test_metrics": false,
+  "rule": "SHA-256 ordering with one channel per distinct SI dimension before deterministic fill",
+  "maximum_queries_per_system": 4,
+  "systems": {
+    "hydraulic": {
+      "indices": [
+        2,
+        10,
+        8,
+        14
+      ],
+      "names": [
+        "PS3",
+        "TS2",
+        "FS2",
+        "CE"
+      ],
+      "dimensions": [
+        [
+          1,
+          -1,
+          -2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          -1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "metropt": {
+      "indices": [
+        1,
+        6,
+        5,
+        2
+      ],
+      "names": [
+        "TP3",
+        "Motor_current",
+        "Oil_temperature",
+        "H1"
+      ],
+      "dimensions": [
+        [
+          1,
+          -1,
+          -2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          -1,
+          -2,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "pmsm": {
+      "indices": [
+        0,
+        1,
+        7,
+        5
+      ],
+      "names": [
+        "u_q",
+        "coolant",
+        "i_q",
+        "motor_speed"
+      ],
+      "dimensions": [
+        [
+          1,
+          2,
+          -3,
+          -1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "steel_industry": {
+      "indices": [
+        1,
+        4,
+        2,
+        3
+      ],
+      "names": [
+        "Lagging_Current_Reactive.Power_kVarh",
+        "Leading_Current_Power_Factor",
+        "Leading_Current_Reactive_Power_kVarh",
+        "Lagging_Current_Power_Factor"
+      ],
+      "dimensions": [
+        [
+          1,
+          2,
+          -2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          2,
+          -2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "building_energy": {
+      "indices": [
+        1,
+        4,
+        24,
+        11
+      ],
+      "names": [
+        "lights",
+        "T3",
+        "Visibility",
+        "RH_1"
+      ],
+      "dimensions": [
+        [
+          1,
+          2,
+          -2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  }
+}
