@@ -435,11 +435,5 @@
       "sha256": "789577dafbd9605d4c1b2d8930ff2861277090b004b6e7ddef6011b79444942e",
       "bytes": 13765
     }
-  ],
-  "asset": {
-    "name": "upstream-sources.tar.gz",
-    "group": "sources",
-    "bytes": 94203,
-    "sha256": "ab01c0e510abfd2c13aaf887969a2fd901ffd8d2e7f0109ff85bfdcc3c23d7ae"
-  }
+  ]
 }

@@ -39,7 +39,7 @@ def main():
         help="Aggregate a complete freshly evaluated pair directory",
     )
     p.add_argument(
-        "--bootstrap", type=Path, help="Downloaded main-block-metrics.json.gz"
+        "--bootstrap", type=Path, help="Locally available block-metric JSON archive"
     )
     p.add_argument("--output", type=Path, default=PROJECT / "results/runs/summary")
     args = p.parse_args()

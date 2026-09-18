@@ -86,10 +86,10 @@ def predict(method, model, binding, view, indices, panel, condition):
 
 
 @torch.inference_mode()
-def run(method, seed, panel, system=None, smoke=False, checkpoint=None):
+def run(method, seed, panel, system=None, smoke=False):
     if panel == "diagnostic" and seed != 17:
         raise ValueError("Diagnostic panel uses seed 17")
-    model, binding = load_model(method, "joint", seed, checkpoint=checkpoint)
+    model, binding = load_model(method, "joint", seed)
     folder = ROOT / "stress" / panel / f"{method}_seed{seed}"
     if smoke:
         folder = folder / "smoke"
@@ -178,7 +178,6 @@ if __name__ == "__main__":
     p.add_argument("--method", choices=(*BACKBONES, "unitime", "cpiri"), required=True)
     p.add_argument("--seed", type=int, choices=(17, 29, 43, 71, 101), default=17)
     p.add_argument("--panel", choices=("diagnostic", "repeated"), required=True)
-    p.add_argument("--checkpoint", help="Path to a local fitted joint checkpoint")
     p.add_argument("--system", choices=SYSTEMS)
     p.add_argument("--smoke", action="store_true")
     run(**vars(p.parse_args()))

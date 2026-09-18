@@ -8,8 +8,7 @@ build/
 dist/
 data/
 checkpoints/
-third_party/
-results/runs/
+results/
 downloads/
 *.pt
 *.pth
@@ -21,3 +20,11 @@ downloads/
 *.docx
 *.pptx
 .env
+*.ckpt
+*.bin
+*.npy
+*.npz
+*.parquet
+*.h5
+*.hdf5
+*.csv

@@ -40,13 +40,9 @@ DEV_PANELS = dict(
 )
 
 
-def load_model(
-    method, family, seed, target=None, fraction=None, device=None, checkpoint=None
-):
+def load_model(method, family, seed, target=None, fraction=None, device=None):
     device = device or device_setup()
-    path, binding = checkpoint_record(
-        method, family, seed, target, fraction, path_override=checkpoint
-    )
+    path, binding = checkpoint_record(method, family, seed, target, fraction)
     seed_all(seed)
     if method == "moirai":
         model, _ = build_frozen_moirai_bridge(path, device)
@@ -174,7 +170,6 @@ def run(
     mode="pair",
     limit=None,
     system=None,
-    checkpoint=None,
 ):
     if family in ("loso", "fewshot") and target not in SYSTEMS:
         raise ValueError("LOSO/fewshot requires --target")
@@ -204,9 +199,7 @@ def run(
     if (output / "complete.json").exists():
         raise FileExistsError(f"Result already exists: {output}")
     device = device_setup()
-    model, binding = load_model(
-        method, family, seed, target, fraction, device, checkpoint
-    )
+    model, binding = load_model(method, family, seed, target, fraction, device)
     variants = (
         ("raw", "full") + ABLATIONS
         if mode in ("components", "diagnostic-components")
@@ -345,10 +338,6 @@ def run(
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--method", choices=METHODS, required=True)
-    p.add_argument(
-        "--checkpoint",
-        help="Path to a local fitted checkpoint; weights are not distributed",
-    )
     p.add_argument(
         "--family", choices=("loso", "fewshot", "joint", "unseen_target"), required=True
     )
