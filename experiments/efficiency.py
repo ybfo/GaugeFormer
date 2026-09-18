@@ -9,8 +9,8 @@ from .correction import CorrectionSuite
 
 
 @torch.inference_mode()
-def run(method, system=None):
-    model, binding = load_model(method, "joint", 17)
+def run(method, system=None, checkpoint=None):
+    model, binding = load_model(method, "joint", 17, checkpoint=checkpoint)
     device = next(model.parameters()).device
     if device.type != "cuda":
         raise RuntimeError("The reported GPU resource protocol requires CUDA")
@@ -106,5 +106,6 @@ def run(method, system=None):
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--method", choices=(*BACKBONES, "tefn", "tggc"), required=True)
+    p.add_argument("--checkpoint", help="Path to a local fitted joint checkpoint")
     p.add_argument("--system", choices=SYSTEMS)
     run(**vars(p.parse_args()))

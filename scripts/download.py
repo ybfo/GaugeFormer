@@ -50,14 +50,9 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument(
         "--group",
-        choices=("data", "sources", "initialization", "checkpoints", "results", "all"),
+        choices=("data", "sources", "results", "all"),
         default="data",
     )
-    p.add_argument(
-        "--method",
-        choices=("moirai", "timer_xl", "gtm", "unitime", "cpiri", "tefn", "tggc"),
-    )
-    p.add_argument("--seed", type=int, choices=(17, 29, 43, 71, 101))
     p.add_argument(
         "--list", action="store_true", help="List selected assets without downloading"
     )
@@ -67,12 +62,10 @@ def main():
         a
         for a in manifest["assets"]
         if (args.group == "all" or a["group"] == args.group)
-        and (not args.method or a.get("method", args.method) == args.method)
-        and (not args.seed or a.get("seed", args.seed) == args.seed)
     ]
     if not assets:
         raise ValueError("No assets match")
-    print(f'{len(assets)} assets, {sum(a["bytes"] for a in assets)/1024**3:.2f} GiB')
+    print(f'{len(assets)} assets, {sum(a["bytes"] for a in assets)/1024**2:.2f} MiB')
     for a in assets:
         print(a["name"], flush=True)
         if args.list:

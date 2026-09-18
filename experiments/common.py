@@ -142,21 +142,71 @@ def select_indices(store, limit=None):
     return np.linspace(0, len(store) - 1, limit, dtype=np.int64)
 
 
-def checkpoint_record(method, family, seed, target=None, fraction=None):
+def checkpoint_record(
+    method, family, seed, target=None, fraction=None, path_override=None
+):
     records = read(REGISTRY)["records"]
+    identity = (method, family, seed, target, fraction)
+    if path_override is not None:
+        path = Path(path_override).expanduser().resolve()
+        if not path.is_file():
+            raise FileNotFoundError(path)
+        checksum = digest(path)
+        known = [r for r in records if checksum in (r["sha256"], r["original_sha256"])]
+        if known:
+            matches = [
+                r
+                for r in known
+                if (
+                    r["method"],
+                    r["family"],
+                    r["seed"],
+                    r["target_system"],
+                    r["fraction"],
+                )
+                == identity
+            ]
+            if not matches:
+                raise ValueError(
+                    "The supplied checkpoint belongs to a different recorded experiment cell"
+                )
+            original = matches[0]["original_sha256"]
+        else:
+            payload = torch.load(path, map_location="cpu", weights_only=True, mmap=True)
+            saved_seed = payload.get("seed", payload.get("config", {}).get("seed"))
+            if payload.get("method") != method or saved_seed != seed:
+                raise ValueError(
+                    "Local checkpoint method or seed differs from the requested cell"
+                )
+            original = payload.get("original_checkpoint_sha256", checksum)
+        binding = dict(
+            method=method,
+            family=family,
+            seed=seed,
+            target_system=target,
+            fraction=fraction,
+            path=str(path),
+            bytes=path.stat().st_size,
+            sha256=checksum,
+            original_sha256=original,
+            checkpoint={"relative_path": str(path), "sha256": original},
+        )
+        return path, binding
     matches = [
         r
         for r in records
         if (r["method"], r["family"], r["seed"], r["target_system"], r["fraction"])
-        == (method, family, seed, target, fraction)
+        == identity
     ]
     if len(matches) != 1:
         raise ValueError("Expected exactly one registered checkpoint")
     r = matches[0]
     path = PROJECT / r["path"]
     if not path.is_file():
-        raise FileNotFoundError(f"Download {r['asset']} first: {path}")
-    if path.stat().st_size != r["bytes"] or digest(path) != r["sha256"]:
+        raise FileNotFoundError(
+            f"Model weights are not distributed. Provide --checkpoint PATH or place the recorded checkpoint at {path}"
+        )
+    if digest(path) not in (r["sha256"], r["original_sha256"]):
         raise ValueError(f"Checkpoint integrity check failed: {path}")
     return path, dict(
         r, checkpoint={"relative_path": r["path"], "sha256": r["original_sha256"]}
