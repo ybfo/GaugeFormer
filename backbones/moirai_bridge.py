@@ -109,7 +109,9 @@ class Moirai1Bridge(nn.Module):
             raise ValueError("observation_mask must match canonical_values")
         batch, channels, context_length = canonical_values.shape
         if context_length != int(self.forecast.hparams.context_length):
-            raise ValueError("Context length differs from the official forecast wrapper")
+            raise ValueError(
+                "Context length differs from the official forecast wrapper"
+            )
         query = self._shared_query_indices(query_index, batch).to(
             device=canonical_values.device
         )
@@ -131,9 +133,7 @@ class Moirai1Bridge(nn.Module):
             time_major.index_select(-1, covariate) if covariate.numel() else None
         )
         past_covariates_observed = (
-            mask_time_major.index_select(-1, covariate)
-            if covariate.numel()
-            else None
+            mask_time_major.index_select(-1, covariate) if covariate.numel() else None
         )
         past_is_pad = ~observation_mask.any(dim=1)
 
@@ -186,13 +186,13 @@ class Moirai1Bridge(nn.Module):
         captured: list[torch.Tensor] = []
 
         def capture_independent(
-            _module: nn.Module, _arguments: tuple[torch.Tensor, ...], output: torch.Tensor
+            _module: nn.Module,
+            _arguments: tuple[torch.Tensor, ...],
+            output: torch.Tensor,
         ) -> None:
             captured.append(output)
 
-        handle = self.forecast.module.in_proj.register_forward_hook(
-            capture_independent
-        )
+        handle = self.forecast.module.in_proj.register_forward_hook(capture_independent)
         try:
             distribution = self.forecast.module(
                 target,

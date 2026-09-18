@@ -57,7 +57,10 @@ HYDRAULIC_CHANNELS = (
     Channel("EPS1", "motor power", "W", SI_POWER),
     Channel("FS1", "volume flow", "L/min", SI_FLOW, 1e-3 / 60.0),
     Channel("FS2", "volume flow", "L/min", SI_FLOW, 1e-3 / 60.0),
-    *(Channel(f"TS{i}", "temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15) for i in range(1, 5)),
+    *(
+        Channel(f"TS{i}", "temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15)
+        for i in range(1, 5)
+    ),
     Channel("VS1", "vibration velocity", "mm/s", SI_VELOCITY, 1e-3),
     Channel("CE", "cooling efficiency", "%", SI_ZERO, 0.01),
     Channel("CP", "cooling power", "kW", SI_POWER, 1000.0),
@@ -65,31 +68,98 @@ HYDRAULIC_CHANNELS = (
 )
 
 METROPT_CHANNELS = (
-    *(Channel(name, "pressure", "bar", SI_PRESSURE, 1e5) for name in ("TP2", "TP3", "H1", "DV_pressure", "Reservoirs")),
-    Channel("Oil_temperature", "oil temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
+    *(
+        Channel(name, "pressure", "bar", SI_PRESSURE, 1e5)
+        for name in ("TP2", "TP3", "H1", "DV_pressure", "Reservoirs")
+    ),
+    Channel(
+        "Oil_temperature",
+        "oil temperature",
+        "degree Celsius",
+        SI_TEMPERATURE,
+        1.0,
+        273.15,
+    ),
     Channel("Motor_current", "motor current", "A", SI_CURRENT),
-    *(Channel(name, "binary sensor state", "1", SI_ZERO, query=False) for name in ("COMP", "DV_eletric", "Towers", "MPG", "LPS", "Pressure_switch", "Oil_level")),
+    *(
+        Channel(name, "binary sensor state", "1", SI_ZERO, query=False)
+        for name in (
+            "COMP",
+            "DV_eletric",
+            "Towers",
+            "MPG",
+            "LPS",
+            "Pressure_switch",
+            "Oil_level",
+        )
+    ),
 )
 
 PMSM_CHANNELS = (
     Channel("u_q", "q-axis voltage", "V", SI_VOLTAGE),
-    Channel("coolant", "coolant temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
-    Channel("stator_winding", "stator winding temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
+    Channel(
+        "coolant", "coolant temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15
+    ),
+    Channel(
+        "stator_winding",
+        "stator winding temperature",
+        "degree Celsius",
+        SI_TEMPERATURE,
+        1.0,
+        273.15,
+    ),
     Channel("u_d", "d-axis voltage", "V", SI_VOLTAGE),
-    Channel("stator_tooth", "stator tooth temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
-    Channel("motor_speed", "motor angular speed", "rpm", SI_FREQUENCY, 2.0 * math.pi / 60.0),
+    Channel(
+        "stator_tooth",
+        "stator tooth temperature",
+        "degree Celsius",
+        SI_TEMPERATURE,
+        1.0,
+        273.15,
+    ),
+    Channel(
+        "motor_speed", "motor angular speed", "rpm", SI_FREQUENCY, 2.0 * math.pi / 60.0
+    ),
     Channel("i_d", "d-axis current", "A", SI_CURRENT),
     Channel("i_q", "q-axis current", "A", SI_CURRENT),
-    Channel("pm", "permanent-magnet temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
-    Channel("stator_yoke", "stator yoke temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
-    Channel("ambient", "ambient temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
+    Channel(
+        "pm",
+        "permanent-magnet temperature",
+        "degree Celsius",
+        SI_TEMPERATURE,
+        1.0,
+        273.15,
+    ),
+    Channel(
+        "stator_yoke",
+        "stator yoke temperature",
+        "degree Celsius",
+        SI_TEMPERATURE,
+        1.0,
+        273.15,
+    ),
+    Channel(
+        "ambient", "ambient temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15
+    ),
     Channel("torque", "shaft torque", "N m", SI_TORQUE),
 )
 
 STEEL_CHANNELS = (
     Channel("Usage_kWh", "active energy consumption", "kWh", SI_ENERGY, 3.6e6),
-    Channel("Lagging_Current_Reactive.Power_kVarh", "lagging reactive energy", "kvarh", SI_ENERGY, 3.6e6),
-    Channel("Leading_Current_Reactive_Power_kVarh", "leading reactive energy", "kvarh", SI_ENERGY, 3.6e6),
+    Channel(
+        "Lagging_Current_Reactive.Power_kVarh",
+        "lagging reactive energy",
+        "kvarh",
+        SI_ENERGY,
+        3.6e6,
+    ),
+    Channel(
+        "Leading_Current_Reactive_Power_kVarh",
+        "leading reactive energy",
+        "kvarh",
+        SI_ENERGY,
+        3.6e6,
+    ),
     Channel("Lagging_Current_Power_Factor", "lagging power factor", "%", SI_ZERO, 0.01),
     Channel("Leading_Current_Power_Factor", "leading power factor", "%", SI_ZERO, 0.01),
     Channel("NSM", "seconds from midnight", "s", SI_TIME, query=False),
@@ -98,14 +168,36 @@ STEEL_CHANNELS = (
 BUILDING_CHANNELS = (
     Channel("Appliances", "appliance energy", "Wh", SI_ENERGY, 3600.0),
     Channel("lights", "lighting energy", "Wh", SI_ENERGY, 3600.0),
-    *(Channel(f"T{i}", f"room {i} temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15) for i in range(1, 10)),
-    *(Channel(f"RH_{i}", f"room {i} relative humidity", "%", SI_ZERO, 0.01) for i in range(1, 10)),
-    Channel("T_out", "outdoor temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
+    *(
+        Channel(
+            f"T{i}",
+            f"room {i} temperature",
+            "degree Celsius",
+            SI_TEMPERATURE,
+            1.0,
+            273.15,
+        )
+        for i in range(1, 10)
+    ),
+    *(
+        Channel(f"RH_{i}", f"room {i} relative humidity", "%", SI_ZERO, 0.01)
+        for i in range(1, 10)
+    ),
+    Channel(
+        "T_out", "outdoor temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15
+    ),
     Channel("Press_mm_hg", "atmospheric pressure", "mmHg", SI_PRESSURE, 133.322387415),
     Channel("RH_out", "outdoor relative humidity", "%", SI_ZERO, 0.01),
     Channel("Windspeed", "wind speed", "m/s", SI_VELOCITY),
     Channel("Visibility", "visibility", "km", SI_LENGTH, 1000.0),
-    Channel("Tdewpoint", "dew-point temperature", "degree Celsius", SI_TEMPERATURE, 1.0, 273.15),
+    Channel(
+        "Tdewpoint",
+        "dew-point temperature",
+        "degree Celsius",
+        SI_TEMPERATURE,
+        1.0,
+        273.15,
+    ),
 )
 
 
@@ -119,7 +211,9 @@ def sha256_file(path: Path) -> str:
 
 def _read_zip_csv(path: Path) -> pd.DataFrame:
     with zipfile.ZipFile(path) as archive:
-        member = next(name for name in archive.namelist() if name.lower().endswith(".csv"))
+        member = next(
+            name for name in archive.namelist() if name.lower().endswith(".csv")
+        )
         with archive.open(member) as stream:
             return pd.read_csv(stream)
 
@@ -154,7 +248,9 @@ def load_hydraulic(raw: Path) -> ProcessedSystem:
             with archive.open(f"{channel.name}.txt") as stream:
                 matrix = np.loadtxt(stream, dtype=np.float32, delimiter="\t")
             if matrix.shape[0] != 2205:
-                raise ValueError(f"Unexpected cycle count for {channel.name}: {matrix.shape}")
+                raise ValueError(
+                    f"Unexpected cycle count for {channel.name}: {matrix.shape}"
+                )
             rate = native_rate[channel.name]
             if rate > 2:
                 resized = signal.resample_poly(matrix, up=2, down=rate, axis=1)
@@ -167,7 +263,9 @@ def load_hydraulic(raw: Path) -> ProcessedSystem:
             else:
                 resized = matrix
             if resized.shape != (2205, 120):
-                raise ValueError(f"Unexpected resample for {channel.name}: {resized.shape}")
+                raise ValueError(
+                    f"Unexpected resample for {channel.name}: {resized.shape}"
+                )
             values[:, :, channel_index] = resized.astype(np.float32, copy=False)
 
     flat = values.reshape(-1, values.shape[-1])
@@ -177,9 +275,16 @@ def load_hydraulic(raw: Path) -> ProcessedSystem:
     cycle_split[int(0.60 * 2205) : int(0.80 * 2205)] = 1
     split = np.repeat(cycle_split, 120)
     return ProcessedSystem(
-        "hydraulic", flat, segments, split, HYDRAULIC_CHANNELS, 0.5,
+        "hydraulic",
+        flat,
+        segments,
+        split,
+        HYDRAULIC_CHANNELS,
+        0.5,
         (f"hydraulic.zip:{sha256_file(archive_path)}",),
-        ("100-Hz and 10-Hz signals anti-aliased to 2 Hz; 1-Hz signals linearly interpolated",),
+        (
+            "100-Hz and 10-Hz signals anti-aliased to 2 Hz; 1-Hz signals linearly interpolated",
+        ),
     )
 
 
@@ -196,9 +301,16 @@ def load_metropt(raw: Path) -> ProcessedSystem:
     split[times.dt.month.isin([4, 5, 6, 7, 8]).to_numpy()] = 2
     values = frame[[channel.name for channel in METROPT_CHANNELS]].to_numpy(np.float32)
     return ProcessedSystem(
-        "metropt", values, segments, split, METROPT_CHANNELS, 10.0,
+        "metropt",
+        values,
+        segments,
+        split,
+        METROPT_CHANNELS,
+        10.0,
         (f"metropt.zip:{sha256_file(archive_path)}",),
-        ("Rows with 9--15 second timestamp jitter retain release order; gaps above 15 seconds split segments",),
+        (
+            "Rows with 9--15 second timestamp jitter retain release order; gaps above 15 seconds split segments",
+        ),
     )
 
 
@@ -212,7 +324,12 @@ def load_pmsm(raw: Path) -> ProcessedSystem:
     split = np.fromiter((profile_to_split[item] for item in profiles), dtype=np.int8)
     values = frame[[channel.name for channel in PMSM_CHANNELS]].to_numpy(np.float32)
     return ProcessedSystem(
-        "pmsm", values, segments, split, PMSM_CHANNELS, 0.5,
+        "pmsm",
+        values,
+        segments,
+        split,
+        PMSM_CHANNELS,
+        0.5,
         (f"measures_v2.csv:{sha256_file(path)}",),
         ("Complete profile_id sessions assigned by SHA-256 with seed 20260812",),
     )
@@ -222,18 +339,26 @@ def load_steel(raw: Path) -> ProcessedSystem:
     archive_path = raw / "steel_industry.zip"
     frame = _read_zip_csv(archive_path)
     if len(frame) != 365 * 96:
-        raise ValueError("Steel series does not contain 96 records for every day of 2018")
+        raise ValueError(
+            "Steel series does not contain 96 records for every day of 2018"
+        )
     nsm = frame["NSM"].to_numpy()
     expected_nsm = ((np.arange(len(frame)) + 1) % 96) * 900
     if not np.array_equal(nsm, expected_nsm):
-        raise ValueError("Steel NSM sequence is inconsistent with 15-minute release order")
+        raise ValueError(
+            "Steel NSM sequence is inconsistent with 15-minute release order"
+        )
     split = np.full(len(frame), 2, dtype=np.int8)
     split[: int(0.60 * len(frame))] = 0
     split[int(0.60 * len(frame)) : int(0.80 * len(frame))] = 1
     values = frame[[channel.name for channel in STEEL_CHANNELS]].to_numpy(np.float32)
     return ProcessedSystem(
-        "steel_industry", values, np.zeros(len(frame), dtype=np.int32), split,
-        STEEL_CHANNELS, 900.0,
+        "steel_industry",
+        values,
+        np.zeros(len(frame), dtype=np.int32),
+        split,
+        STEEL_CHANNELS,
+        900.0,
         (f"steel_industry.zip:{sha256_file(archive_path)}",),
         (
             "Strict 15-minute axis reconstructed from release order and verified NSM slots",
@@ -254,10 +379,16 @@ def load_building(raw: Path) -> ProcessedSystem:
     split[int(0.60 * len(frame)) : int(0.80 * len(frame))] = 1
     values = frame[[channel.name for channel in BUILDING_CHANNELS]].to_numpy(np.float32)
     return ProcessedSystem(
-        "building_energy", values, np.zeros(len(frame), dtype=np.int32), split,
-        BUILDING_CHANNELS, 600.0,
+        "building_energy",
+        values,
+        np.zeros(len(frame), dtype=np.int32),
+        split,
+        BUILDING_CHANNELS,
+        600.0,
         (f"building_energy.zip:{sha256_file(archive_path)}",),
-        ("rv1 and rv2 removed because the dataset authors define them as random variables",),
+        (
+            "rv1 and rv2 removed because the dataset authors define them as random variables",
+        ),
     )
 
 
@@ -272,7 +403,9 @@ def _window_starts(
     stride: int,
 ) -> np.ndarray:
     starts: list[np.ndarray] = []
-    boundaries = np.r_[0, np.flatnonzero(segment_ids[1:] != segment_ids[:-1]) + 1, len(segment_ids)]
+    boundaries = np.r_[
+        0, np.flatnonzero(segment_ids[1:] != segment_ids[:-1]) + 1, len(segment_ids)
+    ]
     for left, right in zip(boundaries[:-1], boundaries[1:]):
         cursor = left
         while cursor < right:
@@ -281,7 +414,11 @@ def _window_starts(
             while block_end < right and split_codes[block_end] == code:
                 block_end += 1
             if code == split_code and block_end - cursor >= total_length:
-                starts.append(np.arange(cursor, block_end - total_length + 1, stride, dtype=np.int64))
+                starts.append(
+                    np.arange(
+                        cursor, block_end - total_length + 1, stride, dtype=np.int64
+                    )
+                )
             cursor = block_end
     return np.concatenate(starts) if starts else np.empty(0, dtype=np.int64)
 
@@ -301,8 +438,14 @@ def write_processed(
     np.save(target / "split_codes.npy", system.split_codes.astype(np.int8, copy=False))
     total = context_length + horizon
     counts = {}
-    for name, code, stride in (("train", 0, 4), ("dev", 1, horizon), ("test", 2, horizon)):
-        starts = _window_starts(system.segment_ids, system.split_codes, code, total, stride)
+    for name, code, stride in (
+        ("train", 0, 4),
+        ("dev", 1, horizon),
+        ("test", 2, horizon),
+    ):
+        starts = _window_starts(
+            system.segment_ids, system.split_codes, code, total, stride
+        )
         if len(starts) == 0:
             raise ValueError(f"{system.system_id} has no {name} windows")
         np.save(target / f"windows_{name}.npy", starts)
@@ -310,7 +453,9 @@ def write_processed(
         if name != "train" and len(starts) > 1:
             prior_end = starts[:-1] + total
             next_target = starts[1:] + context_length
-            same_segment = system.segment_ids[starts[:-1]] == system.segment_ids[starts[1:]]
+            same_segment = (
+                system.segment_ids[starts[:-1]] == system.segment_ids[starts[1:]]
+            )
             if np.any(same_segment & (next_target < prior_end)):
                 raise ValueError(f"{system.system_id} has overlapping {name} targets")
     metadata = {
@@ -318,7 +463,9 @@ def write_processed(
         "system_id": system.system_id,
         "rows": int(system.values.shape[0]),
         "channels": [asdict(channel) for channel in system.channels],
-        "query_indices": [i for i, channel in enumerate(system.channels) if channel.query],
+        "query_indices": [
+            i for i, channel in enumerate(system.channels) if channel.query
+        ],
         "sampling_interval_seconds": system.sampling_interval_seconds,
         "context_length": context_length,
         "horizon": horizon,
@@ -338,7 +485,9 @@ def write_processed(
         if path.is_file():
             hashes[path.name] = sha256_file(path)
     integrity = {"files": hashes}
-    (target / "integrity.json").write_text(json.dumps(integrity, indent=2), encoding="utf-8")
+    (target / "integrity.json").write_text(
+        json.dumps(integrity, indent=2), encoding="utf-8"
+    )
     return metadata
 
 
@@ -364,9 +513,15 @@ class WindowStore:
         self.horizon = int(self.metadata["horizon"])
         self.query_indices = np.asarray(self.metadata["query_indices"], dtype=np.int64)
         channels = self.metadata["channels"]
-        self.dimensions = np.asarray([item["dimension"] for item in channels], dtype=np.float32)
-        self.unit_scale = np.asarray([item["scale_to_si"] for item in channels], dtype=np.float32)
-        self.unit_offset = np.asarray([item["offset_to_si"] for item in channels], dtype=np.float32)
+        self.dimensions = np.asarray(
+            [item["dimension"] for item in channels], dtype=np.float32
+        )
+        self.unit_scale = np.asarray(
+            [item["scale_to_si"] for item in channels], dtype=np.float32
+        )
+        self.unit_offset = np.asarray(
+            [item["offset_to_si"] for item in channels], dtype=np.float32
+        )
         self.sampling_interval = np.full(
             len(channels), self.metadata["sampling_interval_seconds"], dtype=np.float32
         )

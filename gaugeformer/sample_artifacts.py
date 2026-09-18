@@ -78,7 +78,9 @@ class SampleArtifactCollector:
         predicted = _array(prediction)
         observed = _array(target)
         if predicted.shape != observed.shape or predicted.ndim != 3:
-            raise ValueError("sample predictions must match [window,horizon,channel] targets")
+            raise ValueError(
+                "sample predictions must match [window,horizon,channel] targets"
+            )
         indices = np.asarray(window_indices, dtype=np.int64)
         blocks = np.asarray([str(item) for item in block_ids], dtype=np.str_)
         names = tuple(str(item) for item in channel_names)
@@ -88,7 +90,9 @@ class SampleArtifactCollector:
             or len(names) != predicted.shape[2]
             or len(set(map(int, indices))) != len(indices)
         ):
-            raise ValueError("sample identifiers or channels do not match the prediction tensor")
+            raise ValueError(
+                "sample identifiers or channels do not match the prediction tensor"
+            )
         normalized_metadata = json.loads(
             json.dumps(dict(metadata), sort_keys=True, separators=(",", ":"))
         )
@@ -174,11 +178,12 @@ def load(path: Path) -> tuple[dict[str, Any], dict[str, dict[str, np.ndarray]]]:
         if "manifest_utf8" not in archive.files:
             raise ValueError("sample artifact manifest is absent")
         manifest = json.loads(archive["manifest_utf8"].tobytes().decode("utf-8"))
-        manifest_records = manifest.get("records") if isinstance(manifest, dict) else None
+        manifest_records = (
+            manifest.get("records") if isinstance(manifest, dict) else None
+        )
         if (
             not isinstance(manifest, dict)
-            or
-            manifest.get("status") != "complete"
+            or manifest.get("status") != "complete"
             or manifest.get("format") != FORMAT
             or not isinstance(manifest.get("metadata"), dict)
             or not isinstance(manifest_records, list)
@@ -194,7 +199,9 @@ def load(path: Path) -> tuple[dict[str, Any], dict[str, dict[str, np.ndarray]]]:
                 raise ValueError("sample record manifest differs")
             record_id = item.get("record_id")
             prefix = item.get("prefix")
-            dimensions = tuple(item.get(key) for key in ("windows", "horizon", "channels"))
+            dimensions = tuple(
+                item.get(key) for key in ("windows", "horizon", "channels")
+            )
             if (
                 not isinstance(record_id, str)
                 or not record_id
@@ -220,7 +227,9 @@ def load(path: Path) -> tuple[dict[str, Any], dict[str, dict[str, np.ndarray]]]:
             expected.update(keys.values())
             if not all(key in archive.files for key in keys.values()):
                 raise ValueError(f"sample arrays are absent: {prefix}")
-            record = {name: np.asarray(archive[key]).copy() for name, key in keys.items()}
+            record = {
+                name: np.asarray(archive[key]).copy() for name, key in keys.items()
+            }
             prediction = record["prediction"]
             target = record["target"]
             window_index = record["window_index"]
@@ -241,15 +250,16 @@ def load(path: Path) -> tuple[dict[str, Any], dict[str, dict[str, np.ndarray]]]:
                 or any(not str(value) for value in block_id)
                 or any(not str(value) for value in channel_name)
                 or len(np.unique(channel_name)) != len(channel_name)
-                or tuple(prediction.shape)
-                != dimensions
+                or tuple(prediction.shape) != dimensions
                 or not np.isfinite(prediction).all()
                 or not np.isfinite(target).all()
             ):
                 raise ValueError(f"sample tensor structure differs: {prefix}")
             records[record_id] = record
         if set(archive.files) != expected or len(records) != len(manifest_records):
-            raise ValueError("sample artifact contains missing, duplicate, or unexpected arrays")
+            raise ValueError(
+                "sample artifact contains missing, duplicate, or unexpected arrays"
+            )
     return manifest, records
 
 

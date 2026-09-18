@@ -1,0 +1,377 @@
+[
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 2e-05,
+      "max_windows": 1000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 1000
+    },
+    "family": "fewshot",
+    "fraction": 0.01,
+    "method": "cpiri"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 2e-05,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.05,
+    "method": "cpiri"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 0.0002,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-12-v5",
+      "validation_every_windows": 10000
+    },
+    "family": "joint",
+    "fraction": null,
+    "method": "cpiri"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 0.0002,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "loso",
+    "fraction": null,
+    "method": "cpiri"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 0.0002,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "unseen_target",
+    "fraction": null,
+    "method": "cpiri"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 2.0000000000000003e-06,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.01,
+    "method": "gtm"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 2.0000000000000003e-06,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.05,
+    "method": "gtm"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 2e-05,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-12-v5",
+      "validation_every_windows": 10000
+    },
+    "family": "joint",
+    "fraction": null,
+    "method": "gtm"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 2e-05,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "loso",
+    "fraction": null,
+    "method": "gtm"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 2e-05,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "unseen_target",
+    "fraction": null,
+    "method": "gtm"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 5e-08,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.01,
+    "method": "moirai"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 5e-08,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.05,
+    "method": "moirai"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 5e-07,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-12-v5",
+      "validation_every_windows": 10000
+    },
+    "family": "joint",
+    "fraction": null,
+    "method": "moirai"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 5e-07,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "loso",
+    "fraction": null,
+    "method": "moirai"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 32,
+      "learning_rate": 5e-07,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "unseen_target",
+    "fraction": null,
+    "method": "moirai"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 5.000000000000001e-07,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.01,
+    "method": "timer_xl"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 5.000000000000001e-07,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.05,
+    "method": "timer_xl"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 5e-06,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-12-v5",
+      "validation_every_windows": 10000
+    },
+    "family": "joint",
+    "fraction": null,
+    "method": "timer_xl"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 5e-06,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "loso",
+    "fraction": null,
+    "method": "timer_xl"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 16,
+      "learning_rate": 5e-06,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "unseen_target",
+    "fraction": null,
+    "method": "timer_xl"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 8,
+      "learning_rate": 1e-05,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.01,
+    "method": "unitime"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 8,
+      "learning_rate": 1e-05,
+      "max_windows": 5000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 5000
+    },
+    "family": "fewshot",
+    "fraction": 0.05,
+    "method": "unitime"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 8,
+      "learning_rate": 0.0001,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-12-v5",
+      "validation_every_windows": 10000
+    },
+    "family": "joint",
+    "fraction": null,
+    "method": "unitime"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 8,
+      "learning_rate": 0.0001,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "loso",
+    "fraction": null,
+    "method": "unitime"
+  },
+  {
+    "config": {
+      "amp": false,
+      "amp_dtype": "bfloat16",
+      "batch_size": 8,
+      "learning_rate": 0.0001,
+      "max_windows": 100000,
+      "patience_evaluations": 6,
+      "protocol_version": "gf-cs-2026-08-20-v7",
+      "validation_every_windows": 10000
+    },
+    "family": "unseen_target",
+    "fraction": null,
+    "method": "unitime"
+  }
+]

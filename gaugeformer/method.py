@@ -10,7 +10,6 @@ from .local import expert_predictions as local_predictions
 from .memory import GaugeDynamicsMemory, OnlineRouterConfig
 
 
-
 Array = np.ndarray
 HORIZON = 24
 BACKCAST_ORIGINS = (48, 56, 64, 72)
@@ -138,7 +137,9 @@ def candidate_predictions(
     values, query_index = _validate_context_query(context, query)
     raw = np.asarray(raw_backbone, dtype=np.float32)
     if raw.shape != (len(query_index), HORIZON) or not np.isfinite(raw).all():
-        raise ValueError("raw backbone forecast has the wrong shape or a nonfinite value")
+        raise ValueError(
+            "raw backbone forecast has the wrong shape or a nonfinite value"
+        )
     if not candidate_names or candidate_names[0] != "backbone_raw":
         raise ValueError("candidate zero must be raw backbone")
     if len(set(candidate_names)) != len(candidate_names):
@@ -167,7 +168,9 @@ def context_backcast_losses(
     raw = np.asarray(raw_backbone_backcasts, dtype=np.float32)
     expected = (len(origins), len(query_index), HORIZON)
     if raw.shape != expected or not np.isfinite(raw).all():
-        raise ValueError("raw backbone backcasts have the wrong shape or a nonfinite value")
+        raise ValueError(
+            "raw backbone backcasts have the wrong shape or a nonfinite value"
+        )
     losses = []
     for position, origin in enumerate(origins):
         observed = values[query_index, origin : origin + HORIZON]
@@ -182,7 +185,9 @@ def context_backcast_losses(
         full = np.concatenate((raw[position : position + 1], alternatives), axis=0)
         positions = [full_names.index(name) for name in candidate_names]
         candidates = full[positions]
-        losses.append(np.abs(candidates.astype(np.float64) - observed[None]).mean(axis=-1))
+        losses.append(
+            np.abs(candidates.astype(np.float64) - observed[None]).mean(axis=-1)
+        )
     result = np.stack(losses)
     if result.shape != (len(origins), len(candidate_names), len(query_index)):
         raise RuntimeError("GaugeFormer backcast-loss schema differs")

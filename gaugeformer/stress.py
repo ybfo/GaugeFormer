@@ -41,24 +41,24 @@ def alternative_gauge(base: WindowStore) -> tuple[np.ndarray, np.ndarray]:
     scale = np.asarray(base.unit_scale, dtype=np.float64).copy()
     offset = np.asarray(base.unit_offset, dtype=np.float64).copy()
     alternatives = {
-        "bar": (1e3, 0.0),          # kPa
-        "mmHg": (1.0, 0.0),         # Pa
+        "bar": (1e3, 0.0),  # kPa
+        "mmHg": (1.0, 0.0),  # Pa
         "degree Celsius": (1.0, 0.0),  # K
-        "C": (1.0, 0.0),              # K (common metadata abbreviation)
-        "W": (1e3, 0.0),            # kW
-        "kW": (1.0, 0.0),           # W
-        "Wh": (3.6e6, 0.0),         # kWh
-        "kWh": (3600.0, 0.0),       # Wh
-        "kvarh": (3600.0, 0.0),     # varh
-        "L/min": (1.0, 0.0),        # m^3/s
-        "mm/s": (1.0, 0.0),         # m/s
-        "%": (1.0, 0.0),            # fraction
-        "km": (1.0, 0.0),           # m
-        "rpm": (1.0, 0.0),          # rad/s
-        "A": (1e-3, 0.0),           # mA
-        "V": (1e-3, 0.0),           # mV
-        "N m": (1e3, 0.0),          # kN m
-        "s": (60.0, 0.0),           # min
+        "C": (1.0, 0.0),  # K (common metadata abbreviation)
+        "W": (1e3, 0.0),  # kW
+        "kW": (1.0, 0.0),  # W
+        "Wh": (3.6e6, 0.0),  # kWh
+        "kWh": (3600.0, 0.0),  # Wh
+        "kvarh": (3600.0, 0.0),  # varh
+        "L/min": (1.0, 0.0),  # m^3/s
+        "mm/s": (1.0, 0.0),  # m/s
+        "%": (1.0, 0.0),  # fraction
+        "km": (1.0, 0.0),  # m
+        "rpm": (1.0, 0.0),  # rad/s
+        "A": (1e-3, 0.0),  # mA
+        "V": (1e-3, 0.0),  # mV
+        "N m": (1e3, 0.0),  # kN m
+        "s": (60.0, 0.0),  # min
     }
     for index, channel in enumerate(base.metadata["channels"]):
         chosen = alternatives.get(channel["declared_unit"])
@@ -118,9 +118,7 @@ def make_stress_view(
         base,
         source_indices=source,
         query_source_indices=panel,
-        declared_scale=(
-            declared_scale[source] if declared_scale is not None else None
-        ),
+        declared_scale=(declared_scale[source] if declared_scale is not None else None),
         declared_offset=(
             declared_offset[source] if declared_offset is not None else None
         ),

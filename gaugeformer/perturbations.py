@@ -25,117 +25,12 @@ def training_location_scale(root: Path) -> tuple[np.ndarray, np.ndarray]:
     return training.mean(axis=0), np.maximum(training.std(axis=0), 1e-8)
 
 
-class AntiAliasedResampledStore:
-    """A split-local polyphase-resampled view with no boundary leakage."""
-
-    def __init__(self, base: WindowStore, split: str, factor: int) -> None:
-        if factor not in (2, 4):
-            raise ValueError("anti-aliased rate factor must be 2 or 4")
-        split_codes = np.load(base.root / "split_codes.npy", mmap_mode="r")
-        segment_ids = np.load(base.root / "segment_ids.npy", mmap_mode="r")
-        split_code = {"train": 0, "dev": 1, "test": 2}[split]
-        source_values = np.load(base.root / "values.npy", mmap_mode="r")
-        from scipy.signal import firwin, lfilter
-
-        taps = firwin(
-            numtaps=8 * factor + 1,
-            cutoff=1.0 / factor,
-            window=("kaiser", 8.0),
-        )
-
-        pieces: list[np.ndarray] = []
-        piece_segments: list[np.ndarray] = []
-        cursor = 0
-        generated_segment = 0
-        while cursor < len(source_values):
-            segment = segment_ids[cursor]
-            code = split_codes[cursor]
-            end = cursor + 1
-            while (
-                end < len(source_values)
-                and segment_ids[end] == segment
-                and split_codes[end] == code
-            ):
-                end += 1
-            if code == split_code:
-                raw_piece = np.asarray(source_values[cursor:end], dtype=np.float64)
-                filtered = lfilter(taps, [1.0], raw_piece, axis=0)
-                # The FIR is causal.  Dropping its start-up transient preserves
-                # the no-future-information property of every retained sample.
-                piece = filtered[len(taps) - 1 :: factor].astype(np.float32)
-                pieces.append(piece)
-                piece_segments.append(
-                    np.full(len(piece), generated_segment, dtype=np.int32)
-                )
-                generated_segment += 1
-            cursor = end
-        if not pieces:
-            raise ValueError(f"no {split} rows were available for resampling")
-        self.values = np.concatenate(pieces, axis=0)
-        self.segment_ids = np.concatenate(piece_segments)
-        self.split_codes = np.full(len(self.values), split_code, dtype=np.int8)
-        self.context_length = base.context_length
-        self.horizon = base.horizon
-        self.starts = _window_starts(
-            self.segment_ids,
-            self.split_codes,
-            split_code,
-            self.context_length + self.horizon,
-            self.horizon,
-        )
-        if not len(self.starts):
-            raise ValueError(
-                f"{base.metadata['system_id']} has no {split} windows after {factor}x resampling"
-            )
-        self.root = base.root
-        self.metadata = copy.deepcopy(base.metadata)
-        self.metadata["sampling_interval_seconds"] = (
-            float(base.metadata["sampling_interval_seconds"]) * factor
-        )
-        self.metadata["resampling_factor"] = factor
-        self.metadata["resampling_method"] = (
-            "causal Kaiser-window FIR anti-alias filter followed by decimation; "
-            "split- and segment-local with start-up transient removed"
-        )
-        self.query_indices = base.query_indices.copy()
-        self.dimensions = base.dimensions.copy()
-        self.unit_scale = base.unit_scale.copy()
-        self.unit_offset = base.unit_offset.copy()
-        self.sampling_interval = np.full(
-            len(self.metadata["channels"]),
-            self.metadata["sampling_interval_seconds"],
-            dtype=np.float32,
-        )
-
-    def __len__(self) -> int:
-        return int(len(self.starts))
-
-    def get(self, index: int) -> tuple[np.ndarray, np.ndarray]:
-        start = int(self.starts[index])
-        cut = start + self.context_length
-        end = cut + self.horizon
-        return self.values[start:cut].T, self.values[cut:end].T
-
-    def block_ids(
-        self, indices: np.ndarray, maximum_block_seconds: float = 86400.0
-    ) -> np.ndarray:
-        selected = self.starts[np.asarray(indices, dtype=np.int64)]
-        return block_ids_for_window_starts(
-            selected,
-            self.segment_ids,
-            self.context_length,
-            float(self.metadata["sampling_interval_seconds"]),
-            maximum_block_seconds,
-            str(self.metadata["system_id"]),
-        )
-
-
 class PerturbedStore:
     """A channel/gauge view that never mutates its frozen backing store."""
 
     def __init__(
         self,
-        base: WindowStore | AntiAliasedResampledStore,
+        base: WindowStore,
         source_indices: Sequence[int] | None = None,
         query_source_indices: Sequence[int] | None = None,
         declared_scale: np.ndarray | None = None,
@@ -147,10 +42,14 @@ class PerturbedStore:
         self.base = base
         original_channels = len(base.metadata["channels"])
         self.source_indices = np.asarray(
-            source_indices if source_indices is not None else np.arange(original_channels),
+            source_indices
+            if source_indices is not None
+            else np.arange(original_channels),
             dtype=np.int64,
         )
-        if np.any(self.source_indices < 0) or np.any(self.source_indices >= original_channels):
+        if np.any(self.source_indices < 0) or np.any(
+            self.source_indices >= original_channels
+        ):
             raise ValueError("source channel index lies outside the backing store")
         queries = np.asarray(
             query_source_indices
@@ -167,7 +66,10 @@ class PerturbedStore:
         self.query_source_indices = queries
         self.query_indices = np.asarray(positions, dtype=np.int64)
         self.inserted_positions = frozenset(int(item) for item in inserted_positions)
-        if any(item < 0 or item >= len(self.source_indices) for item in self.inserted_positions):
+        if any(
+            item < 0 or item >= len(self.source_indices)
+            for item in self.inserted_positions
+        ):
             raise ValueError("inserted position lies outside the view")
         if any(item in self.query_indices for item in self.inserted_positions):
             raise ValueError("an inserted sensor cannot be a query")
@@ -187,8 +89,12 @@ class PerturbedStore:
         self.metadata["channels"] = channels
         self.metadata["query_indices"] = self.query_indices.tolist()
         self.dimensions = np.asarray(base.dimensions)[self.source_indices].copy()
-        original_scale = np.asarray(base.unit_scale)[self.source_indices].astype(np.float64)
-        original_offset = np.asarray(base.unit_offset)[self.source_indices].astype(np.float64)
+        original_scale = np.asarray(base.unit_scale)[self.source_indices].astype(
+            np.float64
+        )
+        original_offset = np.asarray(base.unit_offset)[self.source_indices].astype(
+            np.float64
+        )
         requested_scale = (
             np.asarray(declared_scale, dtype=np.float64)
             if declared_scale is not None
@@ -199,8 +105,13 @@ class PerturbedStore:
             if declared_offset is not None
             else original_offset.copy()
         )
-        if requested_scale.shape != original_scale.shape or requested_offset.shape != original_offset.shape:
-            raise ValueError("declared gauge must contain one scale and offset per view channel")
+        if (
+            requested_scale.shape != original_scale.shape
+            or requested_offset.shape != original_offset.shape
+        ):
+            raise ValueError(
+                "declared gauge must contain one scale and offset per view channel"
+            )
         if np.any(requested_scale <= 0) or not np.isfinite(requested_scale).all():
             raise ValueError("declared gauge scales must be finite and positive")
         self.original_scale = original_scale.astype(np.float32)
@@ -255,7 +166,9 @@ class PerturbedStore:
             future_rng = np.random.default_rng(
                 deterministic_seed(self.perturbation_seed, index, position, "future")
             )
-            context[position] = context[position, context_rng.permutation(context.shape[1])]
+            context[position] = context[
+                position, context_rng.permutation(context.shape[1])
+            ]
             future[position] = future[position, future_rng.permutation(future.shape[1])]
         return context, future
 
@@ -272,7 +185,9 @@ class PerturbedStore:
             self.unit_scale[positions], device=prediction.device, dtype=prediction.dtype
         ).view(1, 1, -1)
         view_offset = torch.as_tensor(
-            self.unit_offset[positions], device=prediction.device, dtype=prediction.dtype
+            self.unit_offset[positions],
+            device=prediction.device,
+            dtype=prediction.dtype,
         ).view(1, 1, -1)
         original_scale = torch.as_tensor(
             np.asarray(self.base.unit_scale)[source],

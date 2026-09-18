@@ -1,0 +1,445 @@
+{
+  "files": [
+    {
+      "path": "third_party/moirai/LICENSE.txt",
+      "sha256": "f5f58eb4b77c4b1709334b97f1f04772df7e97c7863be1c0d4c639ee1a871cae",
+      "bytes": 11411
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/__about__.py",
+      "sha256": "a1d8166297bd67408ef1dfba0667cb0d50dc6e9f387e088963e1a464a8fa0d00",
+      "bytes": 655
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/__init__.py",
+      "sha256": "54ac65b0e4233eedb21b73ed7265b43a648933da2d5b7d3b78637abfc9a2735b",
+      "bytes": 667
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/common/__init__.py",
+      "sha256": "d361a4c6f9f07854b97d5e4723a587627ba063fe2a12193fa5119ca73b4b8331",
+      "bytes": 632
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/common/core.py",
+      "sha256": "90b18005bd3a43529f9cf3ac7143c161a31456eba679a37b5422d5fab7efc783",
+      "bytes": 1960
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/common/sampler.py",
+      "sha256": "31e207de567f52c0223b4e315b3f85932986cb958044fe6c7672e311d6d5c49a",
+      "bytes": 1875
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/common/torch_util.py",
+      "sha256": "ec52de68b8a265d91b6b8ec8bae5e2a00fefa50f649eb9abd906d04a64985a7d",
+      "bytes": 3834
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/common/typing.py",
+      "sha256": "0037d815a496bb6a7220d83a2920f6b569d536cf14237c4b92afc733d34ac696",
+      "bytes": 1638
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/__init__.py",
+      "sha256": "726ecaf8ff45342267effc865ea504484a3dff21c9471916c74642a0809ea70b",
+      "bytes": 1359
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/_base.py",
+      "sha256": "62ff44fab7a7cefd4393e369ec80f9d38439e0d8257219c1a1381f8b960605ac",
+      "bytes": 8215
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/laplace.py",
+      "sha256": "ea181237b27e9c3233d99a168d2d4dae67f90f89c2849272bdf9036617c93e9f",
+      "bytes": 2414
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/log_normal.py",
+      "sha256": "34253fe29d742b7d4c6780b6d46ff882fd12ce1e7a108daade722b0fda69706d",
+      "bytes": 1505
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/mixture.py",
+      "sha256": "2b40ea32442491c37499813aeb4cbc290c3373c0d414eca16c4f31d2a99c7f99",
+      "bytes": 7856
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/negative_binomial.py",
+      "sha256": "4485ba054d9b210b124fbcb1bf09874f2a2143e5b33de1efe3d6506dffad0a6c",
+      "bytes": 4110
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/normal.py",
+      "sha256": "4569c1e1da0c677345a92ed32ec70e03f1989a788260e45b8b7230f91c3384fb",
+      "bytes": 2348
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/pareto.py",
+      "sha256": "776f4778e022a6c74525212ebf9dd756ebde7c93b7111eda2674f76030ca535f",
+      "bytes": 2636
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/distribution/student_t.py",
+      "sha256": "641f054585269b50e80bd4f331f106c8cafe3d48504a87b7e5fa05596dc5c472",
+      "bytes": 1673
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/loss/__init__.py",
+      "sha256": "d361a4c6f9f07854b97d5e4723a587627ba063fe2a12193fa5119ca73b4b8331",
+      "bytes": 632
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/loss/packed/__init__.py",
+      "sha256": "fd861fa39006d726221db32c1e66e57e832ffd40682e429ee2325098dcfb6b71",
+      "bytes": 1463
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/loss/packed/_base.py",
+      "sha256": "1d191b23e9d70dbb14cc5191dbcc800ddbb6d06159e590a019904275f524ae27",
+      "bytes": 6029
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/loss/packed/distribution.py",
+      "sha256": "ff73cd55bd00256cc48b09c548aa0f3d305858d2f8d3bbae6e02d9a3c8ce0401",
+      "bytes": 1275
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/loss/packed/normalized.py",
+      "sha256": "d68ff6ef98dd25208e8ab33eefefce6bbb25e85e6d3a46708175f74f38c3d4a7",
+      "bytes": 10681
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/loss/packed/percentage_error.py",
+      "sha256": "bee27f2de2a203dd97635980dcd2603a0774aacf2fbbc14510e8a39f3000d734",
+      "bytes": 2058
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/loss/packed/point.py",
+      "sha256": "c62d07b297a0bfa8e5df427bba61e0575ea1bcce70d1f7333b1a591946b7cc73",
+      "bytes": 1076
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/loss/packed/quantile.py",
+      "sha256": "a6ccea45ba38edd5985ba8b16e81e4df187656295ea7ae67407a8d3cd3e37328",
+      "bytes": 1975
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/model/__init__.py",
+      "sha256": "d361a4c6f9f07854b97d5e4723a587627ba063fe2a12193fa5119ca73b4b8331",
+      "bytes": 632
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/model/moirai/__init__.py",
+      "sha256": "d9393f33ac04df42f81a8c17a7c9c35a6490ba32c540a3bb82178d65d79d38a8",
+      "bytes": 878
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/model/moirai/finetune.py",
+      "sha256": "00c157ff78c61b128f2eb2c0b2b9fe375247d0721574f432f7e9e6e0f71796ad",
+      "bytes": 22747
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/model/moirai/forecast.py",
+      "sha256": "ed03dca4076b2329b2785d17dbe7ca8ab86d3cac28c2ab6f918c7da1ee642e20",
+      "bytes": 36974
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/model/moirai/module.py",
+      "sha256": "3effb56da3143c2fe0d71986710982fa0c7571bec677a9f805b34cba02bc0d67",
+      "bytes": 7192
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/model/moirai/pretrain.py",
+      "sha256": "c6f6465d1658be2e90b264fab3337ab3855ff494859cf465292d17ef0baef10e",
+      "bytes": 17524
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/__init__.py",
+      "sha256": "d361a4c6f9f07854b97d5e4723a587627ba063fe2a12193fa5119ca73b4b8331",
+      "bytes": 632
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/attention.py",
+      "sha256": "5303826bd8b3b6f2ae297986b698bc4fc954fe3d1b802c190645fa3be664abe7",
+      "bytes": 13785
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/ffn.py",
+      "sha256": "a7695ccb955f47d1a49df89e934cdb4c70328d17c2e9762d32e0c912d894c297",
+      "bytes": 5092
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/norm.py",
+      "sha256": "0c6a2c7ddfe7a6a9d4a8f6e20134710721124cb0dbdd21902e269bf4db93f13d",
+      "bytes": 1933
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/packed_scaler.py",
+      "sha256": "c99e9e37eb9b3dcc88ca96465222e570f261e626fa3127a081261bf26140039f",
+      "bytes": 5559
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/position/__init__.py",
+      "sha256": "4747c8fd8ad217adb4a68d29daa0425c2f4dac6c0e9f34edb54c1297dae5e522",
+      "bytes": 1261
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/position/additive.py",
+      "sha256": "00bec55d9515d2049c5932ea78df2a06885f80cfe3ee94d65e576b2aee9a8fbc",
+      "bytes": 2216
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/position/attn_bias.py",
+      "sha256": "e8f21c6053cc16eea362a55ebd66fe2ba43c40a36b50fa824af041ce2805af49",
+      "bytes": 4148
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/position/attn_projection.py",
+      "sha256": "52911ba9ffb23647f21a072f3b67a3582144f46250d2de1e44c92b6add6f7208",
+      "bytes": 7616
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/transformer.py",
+      "sha256": "ee164f6a83ea7c53161b9114ebe749add4a597a5e0cb936770a3e3888568c041",
+      "bytes": 8267
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/module/ts_embed.py",
+      "sha256": "31dea9bf137058b9ecc27c0641a4a514031df6eb4fc31a2998efe7fea124a23c",
+      "bytes": 9580
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/optim/__init__.py",
+      "sha256": "f860ece80c98362bb61aae9de55a583a504ef1a04fe93c091017df51e6031033",
+      "bytes": 101
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/optim/lr_scheduler.py",
+      "sha256": "5789c8ba27627613b57fab3fba93f48f03a479655d49b52937b26dbe0c048351",
+      "bytes": 16262
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/__init__.py",
+      "sha256": "340230acdb88d2c12f51fcf2f7b5e8fbbb1457466cff0147177921a11dc27f25",
+      "bytes": 2200
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/_base.py",
+      "sha256": "b28b5918adbe4c9b38eae61fca7b4e8f737836f4063b2c3e7bead7a01ccdb5ce",
+      "bytes": 2160
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/_mixin.py",
+      "sha256": "349d171c3f20371f279c055536fb4fc529690f1f53bd2fb1fc302bbabf07daf5",
+      "bytes": 4055
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/crop.py",
+      "sha256": "7341dbde14c976a7a49da8d6b970b0555f9c0a20849c1c05d448bba982a9bc00",
+      "bytes": 6489
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/feature.py",
+      "sha256": "2ec51b2323f10e219929ede9a16e241994d974c7228ffa51d9c5ee9c6be5649b",
+      "bytes": 5243
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/field.py",
+      "sha256": "ef1d401cc6c4096df813967b99f5250be8e98d0e10aa9700be6362de401ee1bc",
+      "bytes": 1957
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/imputation.py",
+      "sha256": "c0e9edca5c01243e6d12c1e059dad7bc1eb2c0c2e2e8862fa1b50809ca25d4d7",
+      "bytes": 4147
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/pad.py",
+      "sha256": "9582354496c0ce13480b0a5401bf8978550dd4c3ce07485c899e519009ccc03b",
+      "bytes": 3505
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/patch.py",
+      "sha256": "ae0237876e247788bd5c8c668de75be589bd0f6284d5191be93de4d25aa203a1",
+      "bytes": 5782
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/resample.py",
+      "sha256": "09ac854364fee1aed10cfbb80e89b82abd8dcbdf4a8512f3110f058a1671891e",
+      "bytes": 3016
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/reshape.py",
+      "sha256": "ef24bf2b8f2734a20ea24b619ad90bf1e52634d6e79a5080729d519e85b0b134",
+      "bytes": 4461
+    },
+    {
+      "path": "third_party/moirai/src/uni2ts/transform/task.py",
+      "sha256": "e2f90a8e9607cec849b76367dff567d78145c613a0d5660127b804624a43da80",
+      "bytes": 6281
+    },
+    {
+      "path": "third_party/unitime/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    },
+    {
+      "path": "third_party/unitime/models/unitime.py",
+      "sha256": "da7e8294d0d0b6627250fa0f913fb22b7d012b31cf8284243710ac95c4d1b6c7",
+      "bytes": 6272
+    },
+    {
+      "path": "third_party/unitime/models/unitimegpt2.py",
+      "sha256": "d60f923073adad545a2555f08375156aa59ca5f04cd8da8e83d861127272d12b",
+      "bytes": 3760
+    },
+    {
+      "path": "third_party/gtm/layers/__init__.py",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1
+    },
+    {
+      "path": "third_party/gtm/layers/Embed.py",
+      "sha256": "590c8a264979e6a4a0922b2efb01c9426699b6e71e261cdfe04542965be9e8ee",
+      "bytes": 19379
+    },
+    {
+      "path": "third_party/gtm/layers/SelfAttention_Family.py",
+      "sha256": "fff9bba2ffb32bd99e8627a139f99ff947897697aabd6498742c90a7695d1b5a",
+      "bytes": 12186
+    },
+    {
+      "path": "third_party/gtm/layers/Transformer_EncDec.py",
+      "sha256": "621cfcbcb18a69fa1430607dbb66dcafe6c3e5e8174fe1b2ecef4fd992e30d97",
+      "bytes": 17894
+    },
+    {
+      "path": "third_party/gtm/LICENSE",
+      "sha256": "683ed0bc55426bf2e5a5860af71f5983ff04ea20a0f45e014fdab55ed2c4f083",
+      "bytes": 1065
+    },
+    {
+      "path": "third_party/gtm/models/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "third_party/gtm/models/GTM.py",
+      "sha256": "5898d3ffbd1b98bcf23f3e5f15af457d9408abb42761ce5700f0fe5d2b63c38b",
+      "bytes": 18470
+    },
+    {
+      "path": "third_party/gtm/utils/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "third_party/gtm/utils/masking.py",
+      "sha256": "447afd21168a9e8028ab5e58d2daa52120ea5d0d0d07fe21a40617489b66b1d9",
+      "bytes": 39902
+    },
+    {
+      "path": "third_party/openltm/layers/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "third_party/openltm/layers/Attn_Bias.py",
+      "sha256": "1fee0c3fd6db49dc499f7e57cad3f1320daaf1431ee4874d941b86fa7d783c0d",
+      "bytes": 3023
+    },
+    {
+      "path": "third_party/openltm/layers/Attn_Projection.py",
+      "sha256": "6a11dd18beb3b7e555ec1040d28bc43db6e929abeecdcab530c8e0257872a07f",
+      "bytes": 3889
+    },
+    {
+      "path": "third_party/openltm/layers/SelfAttention_Family.py",
+      "sha256": "74861a14e91323bf69796bd9cd852d30029cc92c0f107c2867694d37ea2edb1f",
+      "bytes": 5354
+    },
+    {
+      "path": "third_party/openltm/layers/Transformer_EncDec.py",
+      "sha256": "fb6fcf1eefcd51687dd31833197cab886b07b0c6f4a22fffba49365c003e064f",
+      "bytes": 9122
+    },
+    {
+      "path": "third_party/openltm/LICENSE",
+      "sha256": "29d2a4c09fa577780522219dc248466977f77cd420354c5e9a0e86550be2b849",
+      "bytes": 1084
+    },
+    {
+      "path": "third_party/openltm/models/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "third_party/openltm/models/timer_xl.py",
+      "sha256": "8e05418549809a27c9956ef872e70ae9610c689172779cf158b722ae6678f65e",
+      "bytes": 3065
+    },
+    {
+      "path": "third_party/openltm/utils/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "third_party/openltm/utils/masking.py",
+      "sha256": "a8157a9105e3c11452bd5b6eca0e26dfba83eef53d672600a6e39e22657d5c06",
+      "bytes": 1316
+    },
+    {
+      "path": "third_party/cpiri/baselines/CPiRi/arch.py",
+      "sha256": "a6fd9585341d89f9bdb2683c2b4e08f570dec8a4794d24264c292396b3743c5e",
+      "bytes": 7364
+    },
+    {
+      "path": "third_party/cpiri/baselines/Sundial/arch/__init__.py",
+      "sha256": "b0e9109fe10c52eddf724117ad04d7cb25e5e533794daa827e167aadb9093c20",
+      "bytes": 28
+    },
+    {
+      "path": "third_party/cpiri/baselines/Sundial/arch/config.json",
+      "sha256": "173dd40c0a7e08a71b660110fd6334ee85eb9f6ce6f30df0a6cbaea3bb1ff3b4",
+      "bytes": 739
+    },
+    {
+      "path": "third_party/cpiri/baselines/Sundial/arch/configuration_sundial.py",
+      "sha256": "1a79b4265d7a7feabb1fadc336c2c7580157ededd7cc58655f007213447eb7e4",
+      "bytes": 1577
+    },
+    {
+      "path": "third_party/cpiri/baselines/Sundial/arch/flow_loss.py",
+      "sha256": "ebacb7d5e6f543df1b94ae4d30c1953e572a11e548f6ad5c5a09f83e4336d308",
+      "bytes": 9731
+    },
+    {
+      "path": "third_party/cpiri/baselines/Sundial/arch/generation_config.json",
+      "sha256": "d90f7f1d9ef012f9ec0bd76fdf42e6979d086f157d65910b3b273edfb100e748",
+      "bytes": 69
+    },
+    {
+      "path": "third_party/cpiri/baselines/Sundial/arch/modeling_sundial.py",
+      "sha256": "54a64726285ff12d80dedab8960ba55029e74c78b5b947e38ea45aa668c26988",
+      "bytes": 25439
+    },
+    {
+      "path": "third_party/cpiri/baselines/Sundial/arch/sundial.py",
+      "sha256": "7c9220d999692ebf9aeb82d6d3f963e5c1c8638c694597a707b841524347d927",
+      "bytes": 4490
+    },
+    {
+      "path": "third_party/cpiri/baselines/Sundial/arch/ts_generation_mixin.py",
+      "sha256": "789577dafbd9605d4c1b2d8930ff2861277090b004b6e7ddef6011b79444942e",
+      "bytes": 13765
+    }
+  ],
+  "asset": {
+    "name": "upstream-sources.tar.gz",
+    "group": "sources",
+    "bytes": 94203,
+    "sha256": "ab01c0e510abfd2c13aaf887969a2fd901ffd8d2e7f0109ff85bfdcc3c23d7ae"
+  }
+}

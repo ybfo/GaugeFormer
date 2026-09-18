@@ -1,0 +1,86 @@
+[
+  {
+    "method": "gtm",
+    "fraction": 0.01,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "gtm",
+    "fraction": 0.05,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "cpiri",
+    "fraction": 0.01,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 1000
+  },
+  {
+    "method": "cpiri",
+    "fraction": 0.05,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "moirai",
+    "fraction": 0.01,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "moirai",
+    "fraction": 0.05,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "timer_xl",
+    "fraction": 0.01,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "timer_xl",
+    "fraction": 0.05,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "unitime",
+    "fraction": 0.01,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "unitime",
+    "fraction": 0.05,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "tefn",
+    "fraction": 0.01,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "tefn",
+    "fraction": 0.05,
+    "learning_rate_multiplier": 0.1,
+    "fine_tuning_windows": 5000
+  },
+  {
+    "method": "tggc",
+    "fraction": 0.01,
+    "learning_rate_multiplier": 0.03,
+    "fine_tuning_windows": 1000
+  },
+  {
+    "method": "tggc",
+    "fraction": 0.05,
+    "learning_rate_multiplier": 0.03,
+    "fine_tuning_windows": 1000
+  }
+]

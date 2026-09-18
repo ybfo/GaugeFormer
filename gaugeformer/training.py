@@ -7,6 +7,8 @@ from pathlib import Path
 import numpy as np
 import torch
 from .data import WindowStore
+
+
 def training_standard_deviation(store: WindowStore) -> np.ndarray:
     split_codes = np.load(store.root / "split_codes.npy", mmap_mode="r")
     train = np.asarray(store.values[np.asarray(split_codes) == 0], dtype=np.float64)
@@ -28,4 +30,3 @@ def atomic_json(path: Path, payload: dict) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     temporary.replace(path)
-

@@ -28,10 +28,15 @@ from torch.nn import functional as F
 
 from gaugeformer.data import QuerySubsetStore, WindowStore, load_query_partition
 from gaugeformer.metrics import BlockSDNMAEAccumulator, ChannelMetricAccumulator
-from gaugeformer.training import atomic_json, environment_record, training_standard_deviation
+from gaugeformer.training import (
+    atomic_json,
+    environment_record,
+    training_standard_deviation,
+)
 
 
 from experiments.common import PROJECT
+
 SYSTEMS = ("building_energy", "hydraulic", "metropt", "pmsm", "steel_industry")
 
 
@@ -105,7 +110,9 @@ def training_location_scale(root: str) -> tuple[np.ndarray, np.ndarray]:
 def standardize_context(
     context: torch.Tensor, store: WindowStore
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    if hasattr(store, "normalization_center") and hasattr(store, "normalization_spread"):
+    if hasattr(store, "normalization_center") and hasattr(
+        store, "normalization_spread"
+    ):
         center_np = np.asarray(store.normalization_center, dtype=np.float32)
         spread_np = np.asarray(store.normalization_spread, dtype=np.float32)
     else:
@@ -184,9 +191,13 @@ class TimerXLWrapper(OfficialWrapper):
         )
         self.model = module.Model(config)
         if pretrained:
-            checkpoint_path = PROJECT / "checkpoints" / "official" / "timer_xl" / "checkpoint.pth"
+            checkpoint_path = (
+                PROJECT / "checkpoints" / "official" / "timer_xl" / "checkpoint.pth"
+            )
             if not checkpoint_path.exists():
-                raise FileNotFoundError(f"Missing official Timer-XL checkpoint: {checkpoint_path}")
+                raise FileNotFoundError(
+                    f"Missing official Timer-XL checkpoint: {checkpoint_path}"
+                )
             state = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
             self.model.load_state_dict(state, strict=True)
 
@@ -220,7 +231,9 @@ class TimerXLWrapper(OfficialWrapper):
 
     def configure_training(
         self, config: BaselineTrainConfig, total_steps: int
-    ) -> tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict]:
+    ) -> tuple[
+        torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict
+    ]:
         optimizer = torch.optim.Adam(
             self.parameters(), lr=config.learning_rate, weight_decay=0.0
         )
@@ -228,16 +241,21 @@ class TimerXLWrapper(OfficialWrapper):
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer, T_max=10, eta_min=1e-8
         )
-        return optimizer, scheduler, math.inf, {
-            "optimizer": "Adam",
-            "objective": "MSE on training-partition standardized values",
-            "learning_rate": config.learning_rate,
-            "weight_decay": 0.0,
-            "scheduler": "CosineAnnealingLR stepped at each of ten mapped epochs",
-            "eta_min": 1e-8,
-            "scheduler_interval_steps": steps_per_epoch,
-            "gradient_clip": None,
-        }
+        return (
+            optimizer,
+            scheduler,
+            math.inf,
+            {
+                "optimizer": "Adam",
+                "objective": "MSE on training-partition standardized values",
+                "learning_rate": config.learning_rate,
+                "weight_decay": 0.0,
+                "scheduler": "CosineAnnealingLR stepped at each of ten mapped epochs",
+                "eta_min": 1e-8,
+                "scheduler_interval_steps": steps_per_epoch,
+                "gradient_clip": None,
+            },
+        )
 
 
 class GTMWrapper(OfficialWrapper):
@@ -284,16 +302,20 @@ class GTMWrapper(OfficialWrapper):
             if isinstance(checkpoint, dict) and "model" in checkpoint:
                 checkpoint = checkpoint["model"]
             state = {
-                key.removeprefix("module."): value
-                for key, value in checkpoint.items()
+                key.removeprefix("module."): value for key, value in checkpoint.items()
             }
             self.model.load_state_dict(state, strict=True)
 
     @staticmethod
-    def granularity(seconds: float, batch: int, device: torch.device) -> list[torch.Tensor]:
+    def granularity(
+        seconds: float, batch: int, device: torch.device
+    ) -> list[torch.Tensor]:
         units = [0.001, 1.0, 60.0, 3600.0, 86400.0]
         vector = [0.0] * 5
-        valid = [(abs(seconds / unit - round(seconds / unit)), i, round(seconds / unit)) for i, unit in enumerate(units)]
+        valid = [
+            (abs(seconds / unit - round(seconds / unit)), i, round(seconds / unit))
+            for i, unit in enumerate(units)
+        ]
         _, index, value = min(valid, key=lambda item: (item[0], abs(item[2])))
         vector[index] = float(value)
         return [torch.full((batch,), item, device=device) for item in vector]
@@ -333,7 +355,9 @@ class GTMWrapper(OfficialWrapper):
 
     def configure_training(
         self, config: BaselineTrainConfig, total_steps: int
-    ) -> tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict]:
+    ) -> tuple[
+        torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict
+    ]:
         optimizer = torch.optim.Adam(
             self.parameters(),
             lr=config.learning_rate,
@@ -345,15 +369,20 @@ class GTMWrapper(OfficialWrapper):
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer, T_max=30, eta_min=0.0
         )
-        return optimizer, scheduler, math.inf, {
-            "optimizer": "Adam",
-            "objective": "MSE on training-partition standardized values",
-            "learning_rate": config.learning_rate,
-            "weight_decay": 0.0,
-            "scheduler": "repository cosine schedule stepped at each of thirty mapped epochs",
-            "scheduler_interval_steps": steps_per_epoch,
-            "gradient_clip": None,
-        }
+        return (
+            optimizer,
+            scheduler,
+            math.inf,
+            {
+                "optimizer": "Adam",
+                "objective": "MSE on training-partition standardized values",
+                "learning_rate": config.learning_rate,
+                "weight_decay": 0.0,
+                "scheduler": "repository cosine schedule stepped at each of thirty mapped epochs",
+                "scheduler_interval_steps": steps_per_epoch,
+                "gradient_clip": None,
+            },
+        )
 
 
 class UniTimeWrapper(OfficialWrapper):
@@ -368,7 +397,9 @@ class UniTimeWrapper(OfficialWrapper):
         if pretrained and not (model_path / "config.json").exists():
             raise FileNotFoundError(f"Missing official GPT-2 backbone: {model_path}")
         if not pretrained:
-            raise ValueError("UniTime smoke and formal runs require its published GPT-2 initialization")
+            raise ValueError(
+                "UniTime smoke and formal runs require its published GPT-2 initialization"
+            )
         args = SimpleNamespace(
             mask_rate=0.5,
             patch_len=16,
@@ -387,9 +418,7 @@ class UniTimeWrapper(OfficialWrapper):
 
     @staticmethod
     def description(store: WindowStore) -> str:
-        quantities = sorted(
-            {item["quantity"] for item in store.metadata["channels"]}
-        )
+        quantities = sorted({item["quantity"] for item in store.metadata["channels"]})
         return (
             "multivariate physical sensor measurements sampled every "
             f"{store.metadata['sampling_interval_seconds']:g} seconds; measured "
@@ -426,7 +455,9 @@ class UniTimeWrapper(OfficialWrapper):
             keep.to(context.dtype),
             store,
         )
-        query = torch.as_tensor(store.query_indices, device=context.device, dtype=torch.long)
+        query = torch.as_tensor(
+            store.query_indices, device=context.device, dtype=torch.long
+        )
         future_scaled = (future - global_center) / global_spread
         reconstruction_error = (output[:, :96, :] - scaled).square()
         forecast_error = (
@@ -439,7 +470,9 @@ class UniTimeWrapper(OfficialWrapper):
 
     def configure_training(
         self, config: BaselineTrainConfig, total_steps: int
-    ) -> tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict]:
+    ) -> tuple[
+        torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict
+    ]:
         optimizer = torch.optim.AdamW(
             self.parameters(), lr=config.learning_rate, weight_decay=0.0
         )
@@ -447,17 +480,22 @@ class UniTimeWrapper(OfficialWrapper):
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer, T_max=20, eta_min=1e-6
         )
-        return optimizer, scheduler, 5.0, {
-            "optimizer": "AdamW",
-            "objective": "official masked reconstruction-and-forecast MSE in training-partition standardized values; future terms restricted to query channels",
-            "learning_rate": config.learning_rate,
-            "weight_decay": 0.0,
-            "scheduler": "CosineAnnealingLR mapped from the released T_max=20 over 10 training epochs",
-            "scheduler_interval_steps": steps_per_epoch,
-            "eta_min": 1e-6,
-            "gradient_clip": 5.0,
-            "max_token_num": 128,
-        }
+        return (
+            optimizer,
+            scheduler,
+            5.0,
+            {
+                "optimizer": "AdamW",
+                "objective": "official masked reconstruction-and-forecast MSE in training-partition standardized values; future terms restricted to query channels",
+                "learning_rate": config.learning_rate,
+                "weight_decay": 0.0,
+                "scheduler": "CosineAnnealingLR mapped from the released T_max=20 over 10 training epochs",
+                "scheduler_interval_steps": steps_per_epoch,
+                "eta_min": 1e-6,
+                "gradient_clip": 5.0,
+                "max_token_num": 128,
+            },
+        )
 
 
 class MoiraiWrapper(OfficialWrapper):
@@ -492,12 +530,14 @@ class MoiraiWrapper(OfficialWrapper):
     def target_and_past_covariate_indices(
         store: WindowStore, device: torch.device
     ) -> tuple[torch.Tensor, torch.Tensor]:
-        target = torch.as_tensor(
-            store.query_indices, device=device, dtype=torch.long
-        )
+        target = torch.as_tensor(store.query_indices, device=device, dtype=torch.long)
         target_set = set(store.query_indices.tolist())
         covariate = torch.as_tensor(
-            [index for index in range(len(store.metadata["channels"])) if index not in target_set],
+            [
+                index
+                for index in range(len(store.metadata["channels"]))
+                if index not in target_set
+            ],
             device=device,
             dtype=torch.long,
         )
@@ -522,9 +562,7 @@ class MoiraiWrapper(OfficialWrapper):
         ):
             samples = self.forecast(
                 past_target=target_context,
-                past_observed_target=torch.ones_like(
-                    target_context, dtype=torch.bool
-                ),
+                past_observed_target=torch.ones_like(target_context, dtype=torch.bool),
                 past_is_pad=torch.zeros(
                     batch,
                     context.shape[1],
@@ -569,16 +607,12 @@ class MoiraiWrapper(OfficialWrapper):
             converted = self.forecast._convert(
                 16,
                 past_target=target_context,
-                past_observed_target=torch.ones_like(
-                    target_context, dtype=torch.bool
-                ),
+                past_observed_target=torch.ones_like(target_context, dtype=torch.bool),
                 past_is_pad=torch.zeros(
                     batch, 96, device=context.device, dtype=torch.bool
                 ),
                 future_target=target_future,
-                future_observed_target=torch.ones_like(
-                    target_future, dtype=torch.bool
-                ),
+                future_observed_target=torch.ones_like(target_future, dtype=torch.bool),
                 future_is_pad=torch.zeros(
                     batch, 24, device=context.device, dtype=torch.bool
                 ),
@@ -610,7 +644,9 @@ class MoiraiWrapper(OfficialWrapper):
 
     def configure_training(
         self, config: BaselineTrainConfig, total_steps: int
-    ) -> tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict]:
+    ) -> tuple[
+        torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict
+    ]:
         from uni2ts.model.moirai import MoiraiFinetune
 
         official = MoiraiFinetune(
@@ -634,19 +670,24 @@ class MoiraiWrapper(OfficialWrapper):
         bundle = official.configure_optimizers()
         optimizer = bundle["optimizer"]
         scheduler = bundle["lr_scheduler"]["scheduler"]
-        return optimizer, scheduler, 1.0, {
-            "optimizer": "official MoiraiFinetune AdamW parameter groups",
-            "objective": "official packed negative log-likelihood on query-channel future masks",
-            "learning_rate": config.learning_rate,
-            "weight_decay": 0.1,
-            "betas": [0.9, 0.98],
-            "epsilon": 1e-6,
-            "scheduler": "official constant schedule with zero warm-up",
-            "scheduler_interval_steps": 1,
-            "gradient_clip": 1.0,
-            "patch_size": 16,
-            "num_samples": 100,
-        }
+        return (
+            optimizer,
+            scheduler,
+            1.0,
+            {
+                "optimizer": "official MoiraiFinetune AdamW parameter groups",
+                "objective": "official packed negative log-likelihood on query-channel future masks",
+                "learning_rate": config.learning_rate,
+                "weight_decay": 0.1,
+                "betas": [0.9, 0.98],
+                "epsilon": 1e-6,
+                "scheduler": "official constant schedule with zero warm-up",
+                "scheduler_interval_steps": 1,
+                "gradient_clip": 1.0,
+                "patch_size": 16,
+                "num_samples": 100,
+            },
+        )
 
 
 class CPiRiWrapper(OfficialWrapper):
@@ -655,12 +696,22 @@ class CPiRiWrapper(OfficialWrapper):
     def __init__(self, pretrained: bool = True) -> None:
         super().__init__()
         if not pretrained:
-            raise ValueError("CPiRi requires the official frozen Sundial initialization")
+            raise ValueError(
+                "CPiRi requires the official frozen Sundial initialization"
+            )
         source = PROJECT / "third_party" / "cpiri"
-        checkpoint = PROJECT / "checkpoints" / "official" / "sundial_base_128m" / "model.safetensors"
+        checkpoint = (
+            PROJECT
+            / "checkpoints"
+            / "official"
+            / "sundial_base_128m"
+            / "model.safetensors"
+        )
         expected = source / "baselines" / "Sundial" / "ckpt" / "model.safetensors"
         if not checkpoint.exists():
-            raise FileNotFoundError(f"Missing official Sundial checkpoint: {checkpoint}")
+            raise FileNotFoundError(
+                f"Missing official Sundial checkpoint: {checkpoint}"
+            )
         expected.parent.mkdir(parents=True, exist_ok=True)
         if not expected.exists():
             expected.symlink_to(checkpoint)
@@ -668,7 +719,9 @@ class CPiRiWrapper(OfficialWrapper):
         old_cwd = Path.cwd()
         try:
             os.chdir(source)
-            module = import_official("official_cpiri", source / "baselines" / "CPiRi" / "arch.py")
+            module = import_official(
+                "official_cpiri", source / "baselines" / "CPiRi" / "arch.py"
+            )
             self.model = module.CPiRi(
                 input_len=96,
                 input_dim=1,
@@ -695,7 +748,9 @@ class CPiRiWrapper(OfficialWrapper):
         scaled, center, spread = standardize_context(context, store)
         future_scaled = (future - center) / spread
         channels = scaled.shape[-1]
-        permutation = torch.as_tensor(generator.permutation(channels), device=context.device)
+        permutation = torch.as_tensor(
+            generator.permutation(channels), device=context.device
+        )
         shuffled = scaled.index_select(-1, permutation)
         inverse = torch.argsort(permutation)
         prediction = self.model(shuffled.unsqueeze(-1), train=True).squeeze(-1)
@@ -707,7 +762,9 @@ class CPiRiWrapper(OfficialWrapper):
 
     def configure_training(
         self, config: BaselineTrainConfig, total_steps: int
-    ) -> tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict]:
+    ) -> tuple[
+        torch.optim.Optimizer, torch.optim.lr_scheduler.LRScheduler, float, dict
+    ]:
         optimizer = torch.optim.Adam(
             (parameter for parameter in self.parameters() if parameter.requires_grad),
             lr=config.learning_rate,
@@ -724,31 +781,50 @@ class CPiRiWrapper(OfficialWrapper):
         scheduler = torch.optim.lr_scheduler.MultiStepLR(
             optimizer, milestones=milestones, gamma=0.5
         )
-        return optimizer, scheduler, 3.0, {
-            "optimizer": "Adam",
-            "objective": "official MAE through the differentiable Sundial sampler on per-channel training Z-scores",
-            "learning_rate": config.learning_rate,
-            "weight_decay": 1e-5,
-            "scheduler": "MultiStepLR",
-            "scheduler_interval_steps": 1,
-            "milestones_steps": milestones,
-            "milestones_source_epochs": [1, 10, 25, 40],
-            "source_total_epochs": 60,
-            "gamma": 0.5,
-            "gradient_clip": 3.0,
-        }
+        return (
+            optimizer,
+            scheduler,
+            3.0,
+            {
+                "optimizer": "Adam",
+                "objective": "official MAE through the differentiable Sundial sampler on per-channel training Z-scores",
+                "learning_rate": config.learning_rate,
+                "weight_decay": 1e-5,
+                "scheduler": "MultiStepLR",
+                "scheduler_interval_steps": 1,
+                "milestones_steps": milestones,
+                "milestones_source_epochs": [1, 10, 25, 40],
+                "source_total_epochs": 60,
+                "gamma": 0.5,
+                "gradient_clip": 3.0,
+            },
+        )
 
     def checkpoint_state(self) -> dict[str, torch.Tensor]:
-        trainable = {name for name, parameter in self.named_parameters() if parameter.requires_grad}
-        return {name: value for name, value in self.state_dict().items() if name in trainable}
+        trainable = {
+            name
+            for name, parameter in self.named_parameters()
+            if parameter.requires_grad
+        }
+        return {
+            name: value
+            for name, value in self.state_dict().items()
+            if name in trainable
+        }
 
     def load_checkpoint_state(self, state: dict[str, torch.Tensor]) -> None:
         missing, unexpected = self.load_state_dict(state, strict=False)
         if unexpected:
             raise RuntimeError(f"Unexpected CPiRi checkpoint keys: {unexpected}")
-        trainable = {name for name, parameter in self.named_parameters() if parameter.requires_grad}
+        trainable = {
+            name
+            for name, parameter in self.named_parameters()
+            if parameter.requires_grad
+        }
         if trainable - set(state):
-            raise RuntimeError(f"Missing trainable CPiRi keys: {sorted(trainable - set(state))}")
+            raise RuntimeError(
+                f"Missing trainable CPiRi keys: {sorted(trainable - set(state))}"
+            )
 
 
 def build_model(name: str, pretrained: bool = True) -> OfficialWrapper:
@@ -772,6 +848,7 @@ def evaluate(
     device: torch.device,
     batch_size: int,
     window_limit: int | None = None,
+    protocol_version: str = "gf-cs-2026-08-12-v5",
 ) -> dict:
     model.eval()
     indices = sampled_indices(len(store), window_limit)
@@ -781,7 +858,7 @@ def evaluate(
     accumulator = ChannelMetricAccumulator(names, scale)
     block_accumulator = BlockSDNMAEAccumulator(names, scale)
     seed_material = (
-        f"gf-cs-2026-08-20-v7:{model.name}:{store.metadata['system_id']}"
+        f"{protocol_version}:{model.name}:{store.metadata['system_id']}"
     ).encode("utf-8")
     evaluation_seed = int.from_bytes(
         hashlib.sha256(seed_material).digest()[:8], "big"
@@ -890,15 +967,44 @@ def train(
         scaler.step(optimizer)
         scaler.update()
         completed_step = math.ceil((windows + current) / config.batch_size)
-        if completed_step % scheduler_interval == 0 or windows + current >= config.max_windows:
+        if (
+            completed_step % scheduler_interval == 0
+            or windows + current >= config.max_windows
+        ):
             scheduler.step()
         windows += current
-        history.append({"type": "train", "windows": windows, "system": system_id, "loss": float(loss.detach()), "gradient_norm": float(gradient_norm), "learning_rate": float(optimizer.param_groups[0]["lr"])})
+        history.append(
+            {
+                "type": "train",
+                "windows": windows,
+                "system": system_id,
+                "loss": float(loss.detach()),
+                "gradient_norm": float(gradient_norm),
+                "learning_rate": float(optimizer.param_groups[0]["lr"]),
+            }
+        )
         if windows < next_validation and windows < config.max_windows:
             continue
-        validation = {name: evaluate(model, store, device, config.batch_size, dev_limit) for name, store in dev_stores.items()}
+        validation = {
+            name: evaluate(
+                model,
+                store,
+                device,
+                config.batch_size,
+                dev_limit,
+                config.protocol_version,
+            )
+            for name, store in dev_stores.items()
+        }
         score = float(np.mean([item["sd_nmae"] for item in validation.values()]))
-        history.append({"type": "development", "windows": windows, "mean_sd_nmae": score, "systems": validation})
+        history.append(
+            {
+                "type": "development",
+                "windows": windows,
+                "mean_sd_nmae": score,
+                "systems": validation,
+            }
+        )
         if score < best:
             best = score
             stale = 0
@@ -921,7 +1027,9 @@ def train(
     model.load_checkpoint_state(best_state)
     if best_full_development is None and full_development_after_selection:
         full_development = {
-            name: evaluate(model, store, device, config.batch_size, None)
+            name: evaluate(
+                model, store, device, config.batch_size, None, config.protocol_version
+            )
             for name, store in dev_stores.items()
         }
         full_development_score = float(
@@ -962,16 +1070,12 @@ def train(
         "train_config": asdict(config),
         "official_training": official_training,
         "source_systems": list(system_ids),
-        "supervised_query_indices": checkpoint_payload[
-            "supervised_query_indices"
-        ],
+        "supervised_query_indices": checkpoint_payload["supervised_query_indices"],
         "query_partition_manifest_sha256": checkpoint_payload[
             "query_partition_manifest_sha256"
         ],
         "best_development_sd_nmae": (
-            full_development_score
-            if full_development_score is not None
-            else best
+            full_development_score if full_development_score is not None else best
         ),
         "selection_development_sd_nmae": best,
         "best_windows_seen": best_windows,
@@ -979,12 +1083,12 @@ def train(
         "full_development_recomputed": full_development is not None,
         "checkpoint_saved": save_checkpoint,
         "parameter_count": sum(p.numel() for p in model.parameters()),
-        "trainable_parameter_count": sum(p.numel() for p in model.parameters() if p.requires_grad),
+        "trainable_parameter_count": sum(
+            p.numel() for p in model.parameters() if p.requires_grad
+        ),
         "elapsed_seconds": time.time() - started,
         "peak_cuda_memory_bytes": (
-            int(torch.cuda.max_memory_allocated(device))
-            if device.type == "cuda"
-            else 0
+            int(torch.cuda.max_memory_allocated(device)) if device.type == "cuda" else 0
         ),
         "training_throughput_windows_per_second": (
             float(best_windows / max(time.time() - started, 1e-9))
@@ -997,4 +1101,3 @@ def train(
     }
     atomic_json(output / "run.json", result)
     return result
-

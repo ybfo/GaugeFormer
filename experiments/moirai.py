@@ -8,10 +8,13 @@ from typing import Iterator
 import torch
 from backbones.moirai_bridge import Moirai1Bridge
 from .common import PROJECT, ORIGINS as BACKCAST_ORIGINS
-FORMAL_PROTOCOL = 'gf-cs-2026-08-24-v13-formal-development'
-TEST_PROTOCOL = 'gf-cs-2026-08-24-v13-confirmatory'
+
+FORMAL_PROTOCOL = "gf-cs-2026-08-24-v13-formal-development"
+TEST_PROTOCOL = "gf-cs-2026-08-24-v13-confirmatory"
 FUTURE_SAMPLES = 100
 BACKCAST_SAMPLES = 20
+
+
 def build_frozen_moirai_bridge(
     checkpoint_path: Path, device: torch.device
 ) -> tuple[Moirai1Bridge, dict]:
@@ -107,9 +110,7 @@ def _moirai_prediction(
         mask = torch.ones_like(values, dtype=torch.bool)
     else:
         values, mask = _left_padded_prefix(contexts, origin)
-    seed = _evaluation_seed(
-        checkpoint_sha256, family, system, label, samples, protocol
-    )
+    seed = _evaluation_seed(checkpoint_sha256, family, system, label, samples, protocol)
     with _fork_rng(device, seed):
         return bridge(
             values,
@@ -118,4 +119,3 @@ def _moirai_prediction(
             point_mode="sample_median",
             point_samples=samples,
         )["base_forecast_canonical"]
-

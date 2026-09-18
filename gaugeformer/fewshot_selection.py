@@ -11,7 +11,6 @@ from .protocol import file_sha256
 
 
 FROZEN_BASE_RATES = {
-    "gaugeformer": 3e-4,
     "unitime": 1e-4,
     "moirai": 5e-7,
     "timer_xl": 5e-6,
